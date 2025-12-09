@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garborg.com - Animert Tittel</title>
+    <style>
+        /* Grunnleggende styling */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Container for hele ordet */
+        .garborg-text {
+            font-size: 6em; /* Stor skriftstørrelse */
+            font-weight: bold;
+            display: flex;
+            user-select: none; /* Forhindrer markering av teksten */
+        }
+
+        /* Styling for hver enkelt bokstav */
+        .letter {
+            /* Initial farge. Denne overstyres av animasjonen. */
+            color: #333; 
+            transition: color 0.5s;
+            display: inline-block; /* Nødvendig for å animere hver bokstav separat */
+            /* Setter et forsinkelsespunkt for å justere animasjonen */
+            animation: bounce 2s infinite alternate; 
+        }
+
+        /* Animasjonsnøkkelrammer for hoppe-effekten */
+        @keyframes bounce {
+            0% { 
+                transform: translateY(0); 
+                color: #2c3e50; /* Mørk startfarge */
+            }
+            50% { 
+                transform: translateY(-20px); /* Hopper opp 20 piksler */
+                color: #e74c3c; /* Rød farge på toppen */
+            }
+            100% { 
+                transform: translateY(0); 
+                color: #2c3e50; /* Tilbake til startfarge */
+            }
+        }
+
+        /* Forsinkelse for hver bokstav for å skape en bølgende effekt.
+           Dette bruker 'nth-child()' for å målrette spesifikke bokstaver.
+        */
+        .garborg-text .letter:nth-child(1) { animation-delay: 0s; } /* g */
+        .garborg-text .letter:nth-child(2) { animation-delay: 0.1s; } /* a */
+        .garborg-text .letter:nth-child(3) { animation-delay: 0.2s; } /* r */
+        .garborg-text .letter:nth-child(4) { animation-delay: 0.3s; } /* b */
+        .garborg-text .letter:nth-child(5) { animation-delay: 0.4s; } /* o */
+        .garborg-text .letter:nth-child(6) { animation-delay: 0.5s; } /* r */
+        .garborg-text .letter:nth-child(7) { animation-delay: 0.6s; } /* g */
+        .garborg-text .letter:nth-child(8) { animation-delay: 0.7s; } /* . */
+        .garborg-text .letter:nth-child(9) { animation-delay: 0.8s; } /* c */
+        .garborg-text .letter:nth-child(10) { animation-delay: 0.9s; } /* o */
+        .garborg-text .letter:nth-child(11) { animation-delay: 1.0s; } /* m */
+
+    </style>
+</head>
+<body>
+
+    <div class="garborg-text">
+        <span class="letter">g</span>
+        <span class="letter">a</span>
+        <span class="letter">r</span>
+        <span class="letter">b</span>
+        <span class="letter">o</span>
+        <span class="letter">r</span>
+        <span class="letter">g</span>
+        <span class="letter">.</span>
+        <span class="letter">c</span>
+        <span class="letter">o</span>
+        <span class="letter">m</span>
+    </div>
+
+</body>
+</html>
