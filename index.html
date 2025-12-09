@@ -3,71 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Garborg.com - Animert Tittel</title>
+    <title>Garborg.com - Logo og Animert Tittel</title>
     <style>
         /* Grunnleggende styling */
         body {
             display: flex;
+            flex-direction: column; /* Endret til kolonne for å stable elementene */
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
+            gap: 40px; /* Lager avstand mellom logoen og teksten */
+        }
+        
+        /* ------------------ LOGO STYLING ------------------ */
+        .logo {
+            max-width: 300px; /* Mindre enn forrige for å balansere med teksten */
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            
+            /* Starter animasjonen for bildet */
+            animation: subtle-pulse 5s infinite alternate ease-in-out;
         }
 
-        /* Container for hele ordet */
+        /* Animasjonsnøkkelrammer for en subtil pulsering på logoen */
+        @keyframes subtle-pulse {
+            0% { 
+                transform: scale(1);
+                opacity: 0.9;
+            }
+            100% { 
+                transform: scale(1.05); /* Vokser litt */
+                opacity: 1;
+            }
+        }
+        
+        /* ------------------ TEKST STYLING (Original) ------------------ */
         .garborg-text {
-            font-size: 6em; /* Stor skriftstørrelse */
+            font-size: 6em; 
             font-weight: bold;
             display: flex;
-            user-select: none; /* Forhindrer markering av teksten */
+            user-select: none; 
         }
 
-        /* Styling for hver enkelt bokstav */
         .letter {
-            /* Initial farge. Denne overstyres av animasjonen. */
             color: #333; 
             transition: color 0.5s;
-            display: inline-block; /* Nødvendig for å animere hver bokstav separat */
-            /* Setter et forsinkelsespunkt for å justere animasjonen */
+            display: inline-block; 
             animation: bounce 2s infinite alternate; 
         }
 
-        /* Animasjonsnøkkelrammer for hoppe-effekten */
         @keyframes bounce {
             0% { 
                 transform: translateY(0); 
-                color: #2c3e50; /* Mørk startfarge */
+                color: #2c3e50; 
             }
             50% { 
-                transform: translateY(-20px); /* Hopper opp 20 piksler */
-                color: #e74c3c; /* Rød farge på toppen */
+                transform: translateY(-20px); 
+                color: #e74c3c; 
             }
             100% { 
                 transform: translateY(0); 
-                color: #2c3e50; /* Tilbake til startfarge */
+                color: #2c3e50; 
             }
         }
 
-        /* Forsinkelse for hver bokstav for å skape en bølgende effekt.
-           Dette bruker 'nth-child()' for å målrette spesifikke bokstaver.
-        */
-        .garborg-text .letter:nth-child(1) { animation-delay: 0s; } /* g */
-        .garborg-text .letter:nth-child(2) { animation-delay: 0.1s; } /* a */
-        .garborg-text .letter:nth-child(3) { animation-delay: 0.2s; } /* r */
-        .garborg-text .letter:nth-child(4) { animation-delay: 0.3s; } /* b */
-        .garborg-text .letter:nth-child(5) { animation-delay: 0.4s; } /* o */
-        .garborg-text .letter:nth-child(6) { animation-delay: 0.5s; } /* r */
-        .garborg-text .letter:nth-child(7) { animation-delay: 0.6s; } /* g */
-        .garborg-text .letter:nth-child(8) { animation-delay: 0.7s; } /* . */
-        .garborg-text .letter:nth-child(9) { animation-delay: 0.8s; } /* c */
-        .garborg-text .letter:nth-child(10) { animation-delay: 0.9s; } /* o */
-        .garborg-text .letter:nth-child(11) { animation-delay: 1.0s; } /* m */
+        .garborg-text .letter:nth-child(1) { animation-delay: 0s; }
+        .garborg-text .letter:nth-child(2) { animation-delay: 0.1s; }
+        .garborg-text .letter:nth-child(3) { animation-delay: 0.2s; }
+        .garborg-text .letter:nth-child(4) { animation-delay: 0.3s; }
+        .garborg-text .letter:nth-child(5) { animation-delay: 0.4s; }
+        .garborg-text .letter:nth-child(6) { animation-delay: 0.5s; }
+        .garborg-text .letter:nth-child(7) { animation-delay: 0.6s; }
+        .garborg-text .letter:nth-child(8) { animation-delay: 0.7s; }
+        .garborg-text .letter:nth-child(9) { animation-delay: 0.8s; }
+        .garborg-text .letter:nth-child(10) { animation-delay: 0.9s; }
+        .garborg-text .letter:nth-child(11) { animation-delay: 1.0s; }
 
     </style>
 </head>
 <body>
+
+    <img src="IMG_6110.JPG" alt="Garborg.com Logo" class="logo">
 
     <div class="garborg-text">
         <span class="letter">g</span>
