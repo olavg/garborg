@@ -188,19 +188,7 @@
   <div class="container">
     <img src="IMG_6110.JPG" alt="Garborg.com Logo" class="logo" />
 
-    <div class="garborg-text" aria-label="garborg.com">
-      <span class="letter">g</span>
-      <span class="letter">a</span>
-      <span class="letter">r</span>
-      <span class="letter">b</span>
-      <span class="letter">o</span>
-      <span class="letter">r</span>
-      <span class="letter">g</span>
-      <span class="letter">.</span>
-      <span class="letter">c</span>
-      <span class="letter">o</span>
-      <span class="letter">m</span>
-    </div>
+    <div class="garborg-text" id="siteName"></div>
 
     <div class="game-wrap">
       <div class="hud">
@@ -218,7 +206,22 @@
 
     <div class="version">v02</div>
   </div>
-
+  <script>
+  const hostname = window.location.hostname.toLowerCase();
+  
+  // Remove www.
+  const siteName = hostname.replace(/^www\./, '');
+  
+  const container = document.getElementById('siteName');
+  
+  siteName.split('').forEach((char, index) => {
+      const span = document.createElement('span');
+      span.className = 'letter';
+      span.textContent = char;
+      span.style.animationDelay = `${index * 0.1}s`;
+      container.appendChild(span);
+  });
+  </script>
   <script>
     const canvas = document.getElementById("pong");
     const ctx = canvas.getContext("2d");
