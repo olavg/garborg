@@ -1,157 +1,501 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>garborg.com</title>
-
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(
-        -45deg,
-        #ff6b6b,
-        #ffb347,
-        #4ecdc4,
-        #5568fe,
-        #c44dff
-    );
-    background-size: 400% 400%;
-    animation: gradientMove 15s ease infinite;
-    font-family: "Segoe UI", Arial, sans-serif;
-    overflow: hidden;
-}
-
-@keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-.container {
-    text-align: center;
-    padding: 40px;
-    backdrop-filter: blur(18px);
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 30px;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-}
-
-/* Logo */
-.logo {
-    width: 320px;
-    max-width: 80vw;
-    border-radius: 20px;
-    box-shadow:
-        0 0 30px rgba(255,255,255,0.4),
-        0 15px 35px rgba(0,0,0,0.25);
-    animation: float 5s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%,100% {
-        transform: translateY(0px) scale(1);
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>garborg.com</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    50% {
-        transform: translateY(-12px) scale(1.04);
+
+    :root {
+      --bg1: #ff6b6b;
+      --bg2: #ffb347;
+      --bg3: #4ecdc4;
+      --bg4: #5568fe;
+      --bg5: #c44dff;
+      --glass: rgba(255, 255, 255, 0.16);
+      --glass-border: rgba(255, 255, 255, 0.24);
+      --text: #ffffff;
     }
-}
 
-/* Main Text */
-.garborg-text {
-    margin-top: 35px;
-    font-size: clamp(3rem, 8vw, 6rem);
-    font-weight: 900;
-    letter-spacing: 3px;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    user-select: none;
-}
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(-45deg, var(--bg1), var(--bg2), var(--bg3), var(--bg4), var(--bg5));
+      background-size: 400% 400%;
+      animation: gradientMove 15s ease infinite;
+      font-family: "Segoe UI", Arial, sans-serif;
+      overflow: hidden;
+      color: var(--text);
+    }
 
-.letter {
-    display: inline-block;
-    animation:
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      width: min(920px, 92vw);
+      padding: 28px;
+      text-align: center;
+      backdrop-filter: blur(18px);
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 30px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18);
+    }
+
+    .logo {
+      width: min(320px, 72vw);
+      border-radius: 20px;
+      box-shadow:
+        0 0 30px rgba(255, 255, 255, 0.35),
+        0 15px 35px rgba(0, 0, 0, 0.22);
+      animation: float 5s ease-in-out infinite;
+      display: block;
+      margin: 0 auto;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.03); }
+    }
+
+    .garborg-text {
+      margin-top: 22px;
+      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      font-weight: 900;
+      letter-spacing: 3px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      user-select: none;
+      line-height: 1;
+    }
+
+    .letter {
+      display: inline-block;
+      animation:
         bounce 2.5s infinite ease-in-out,
         rainbow 8s infinite linear;
-    text-shadow:
-        0 0 15px rgba(255,255,255,0.6),
-        0 0 25px rgba(255,255,255,0.3);
-}
-
-@keyframes bounce {
-    0%,100% {
-        transform: translateY(0);
+      text-shadow:
+        0 0 14px rgba(255, 255, 255, 0.55),
+        0 0 26px rgba(255, 255, 255, 0.22);
     }
-    50% {
-        transform: translateY(-18px);
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-16px); }
     }
-}
 
-@keyframes rainbow {
-    0%   { color: #ff4d6d; }
-    20%  { color: #ff9f1c; }
-    40%  { color: #2ec4b6; }
-    60%  { color: #3a86ff; }
-    80%  { color: #8338ec; }
-    100% { color: #ff4d6d; }
-}
+    @keyframes rainbow {
+      0%   { color: #ff4d6d; }
+      20%  { color: #ff9f1c; }
+      40%  { color: #2ec4b6; }
+      60%  { color: #3a86ff; }
+      80%  { color: #8338ec; }
+      100% { color: #ff4d6d; }
+    }
 
-.letter:nth-child(1) { animation-delay: 0s; }
-.letter:nth-child(2) { animation-delay: .1s; }
-.letter:nth-child(3) { animation-delay: .2s; }
-.letter:nth-child(4) { animation-delay: .3s; }
-.letter:nth-child(5) { animation-delay: .4s; }
-.letter:nth-child(6) { animation-delay: .5s; }
-.letter:nth-child(7) { animation-delay: .6s; }
-.letter:nth-child(8) { animation-delay: .7s; }
-.letter:nth-child(9) { animation-delay: .8s; }
-.letter:nth-child(10) { animation-delay: .9s; }
-.letter:nth-child(11) { animation-delay: 1s; }
+    .letter:nth-child(1) { animation-delay: 0s; }
+    .letter:nth-child(2) { animation-delay: .1s; }
+    .letter:nth-child(3) { animation-delay: .2s; }
+    .letter:nth-child(4) { animation-delay: .3s; }
+    .letter:nth-child(5) { animation-delay: .4s; }
+    .letter:nth-child(6) { animation-delay: .5s; }
+    .letter:nth-child(7) { animation-delay: .6s; }
+    .letter:nth-child(8) { animation-delay: .7s; }
+    .letter:nth-child(9) { animation-delay: .8s; }
+    .letter:nth-child(10) { animation-delay: .9s; }
+    .letter:nth-child(11) { animation-delay: 1s; }
 
-.version {
-    margin-top: 15px;
-    font-size: 0.9rem;
-    color: rgba(255,255,255,0.85);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-}
-</style>
+    .game-wrap {
+      margin: 26px auto 0;
+      width: min(760px, 100%);
+      display: grid;
+      gap: 12px;
+      justify-items: center;
+    }
+
+    .hud {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.92);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0 4px;
+    }
+
+    .hud .score {
+      font-weight: 800;
+    }
+
+    canvas {
+      width: 100%;
+      max-width: 760px;
+      aspect-ratio: 2 / 1;
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(255,255,255,0.16), rgba(255,255,255,0.04) 40%, rgba(0,0,0,0.12) 100%);
+      border: 1px solid rgba(255,255,255,0.24);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,0.08),
+        0 18px 40px rgba(0,0,0,0.18);
+      display: block;
+    }
+
+    .help {
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.84);
+      line-height: 1.4;
+    }
+
+    .version {
+      margin-top: 18px;
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.82);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        padding: 18px;
+        border-radius: 24px;
+      }
+
+      .hud {
+        font-size: 0.82rem;
+      }
+
+      .help {
+        font-size: 0.82rem;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="container">
+    <img src="IMG_6110.JPG" alt="Garborg.com Logo" class="logo" />
 
-<div class="container">
+    <div class="garborg-text" aria-label="garborg.com">
+      <span class="letter">g</span>
+      <span class="letter">a</span>
+      <span class="letter">r</span>
+      <span class="letter">b</span>
+      <span class="letter">o</span>
+      <span class="letter">r</span>
+      <span class="letter">g</span>
+      <span class="letter">.</span>
+      <span class="letter">c</span>
+      <span class="letter">o</span>
+      <span class="letter">m</span>
+    </div>
 
-    <img src="IMG_6110.JPG" alt="Garborg.com Logo" class="logo">
+    <div class="game-wrap">
+      <div class="hud">
+        <div>Left: W / S</div>
+        <div class="score" id="score">0 - 0</div>
+        <div>Right: Arrow Up / Down</div>
+      </div>
 
-    <div class="garborg-text">
-        <span class="letter">g</span>
-        <span class="letter">a</span>
-        <span class="letter">r</span>
-        <span class="letter">b</span>
-        <span class="letter">o</span>
-        <span class="letter">r</span>
-        <span class="letter">g</span>
-        <span class="letter">.</span>
-        <span class="letter">c</span>
-        <span class="letter">o</span>
-        <span class="letter">m</span>
+      <canvas id="pong" width="760" height="380"></canvas>
+
+      <div class="help">
+        Small Pong built in. First to 7 wins. Press Space to pause or restart after a win.
+      </div>
     </div>
 
     <div class="version">v02</div>
+  </div>
 
-</div>
+  <script>
+    const canvas = document.getElementById("pong");
+    const ctx = canvas.getContext("2d");
+    const scoreEl = document.getElementById("score");
 
+    const W = canvas.width;
+    const H = canvas.height;
+
+    const state = {
+      left: 0,
+      right: 0,
+      paused: false,
+      gameOver: false,
+      winner: "",
+    };
+
+    const paddle = {
+      w: 14,
+      h: 90,
+      speed: 6.5
+    };
+
+    const left = {
+      x: 24,
+      y: H / 2 - paddle.h / 2,
+      dy: 0
+    };
+
+    const right = {
+      x: W - 24 - paddle.w,
+      y: H / 2 - paddle.h / 2,
+      dy: 0
+    };
+
+    const ball = {
+      x: W / 2,
+      y: H / 2,
+      r: 9,
+      dx: 5,
+      dy: 3.2
+    };
+
+    function resetBall(direction = 1) {
+      ball.x = W / 2;
+      ball.y = H / 2;
+      ball.dx = 5 * direction;
+      ball.dy = (Math.random() > 0.5 ? 1 : -1) * (2.7 + Math.random() * 1.8);
+    }
+
+    function resetGame() {
+      state.left = 0;
+      state.right = 0;
+      state.paused = false;
+      state.gameOver = false;
+      state.winner = "";
+      left.y = H / 2 - paddle.h / 2;
+      right.y = H / 2 - paddle.h / 2;
+      resetBall(Math.random() > 0.5 ? 1 : -1);
+      updateScore();
+    }
+
+    function updateScore() {
+      scoreEl.textContent = `${state.left} - ${state.right}`;
+    }
+
+    function clamp(v, min, max) {
+      return Math.max(min, Math.min(max, v));
+    }
+
+    function drawCenterLine() {
+      ctx.save();
+      ctx.strokeStyle = "rgba(255,255,255,0.35)";
+      ctx.setLineDash([10, 14]);
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(W / 2, 16);
+      ctx.lineTo(W / 2, H - 16);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawRoundedRect(x, y, w, h, r, fillStyle) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+      ctx.fillStyle = fillStyle;
+      ctx.fill();
+    }
+
+    function drawPaddle(p) {
+      drawRoundedRect(p.x, p.y, paddle.w, paddle.h, 8, "rgba(255,255,255,0.95)");
+      ctx.shadowColor = "rgba(255,255,255,0.4)";
+      ctx.shadowBlur = 12;
+      drawRoundedRect(p.x, p.y, paddle.w, paddle.h, 8, "rgba(255,255,255,0.95)");
+      ctx.shadowBlur = 0;
+    }
+
+    function drawBall() {
+      const grad = ctx.createRadialGradient(ball.x - 3, ball.y - 3, 2, ball.x, ball.y, ball.r + 8);
+      grad.addColorStop(0, "#ffffff");
+      grad.addColorStop(0.4, "#ffecb3");
+      grad.addColorStop(1, "rgba(255,255,255,0.15)");
+
+      ctx.beginPath();
+      ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+      ctx.fillStyle = grad;
+      ctx.shadowColor = "rgba(255,255,255,0.6)";
+      ctx.shadowBlur = 18;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+
+    function drawOverlayText() {
+      if (!state.paused && !state.gameOver) return;
+
+      ctx.save();
+      ctx.fillStyle = "rgba(0,0,0,0.28)";
+      ctx.fillRect(0, 0, W, H);
+
+      ctx.fillStyle = "#fff";
+      ctx.textAlign = "center";
+
+      ctx.font = "900 34px Segoe UI, Arial, sans-serif";
+      ctx.fillText(state.gameOver ? `${state.winner} wins!` : "Paused", W / 2, H / 2 - 12);
+
+      ctx.font = "600 18px Segoe UI, Arial, sans-serif";
+      ctx.fillText(state.gameOver ? "Press Space to restart" : "Press Space to continue", W / 2, H / 2 + 22);
+      ctx.restore();
+    }
+
+    function serveAfterPoint(scoredBy) {
+      resetBall(scoredBy === "left" ? 1 : -1);
+      state.paused = true;
+      setTimeout(() => {
+        if (!state.gameOver) state.paused = false;
+      }, 700);
+    }
+
+    function update() {
+      if (state.paused || state.gameOver) return;
+
+      left.y += left.dy;
+      right.y += right.dy;
+
+      left.y = clamp(left.y, 0, H - paddle.h);
+      right.y = clamp(right.y, 0, H - paddle.h);
+
+      ball.x += ball.dx;
+      ball.y += ball.dy;
+
+      if (ball.y - ball.r <= 0 || ball.y + ball.r >= H) {
+        ball.dy *= -1;
+        ball.y = clamp(ball.y, ball.r, H - ball.r);
+      }
+
+      // Left paddle collision
+      if (
+        ball.x - ball.r <= left.x + paddle.w &&
+        ball.x - ball.r >= left.x &&
+        ball.y >= left.y &&
+        ball.y <= left.y + paddle.h &&
+        ball.dx < 0
+      ) {
+        ball.dx *= -1.06;
+        const hitPos = (ball.y - (left.y + paddle.h / 2)) / (paddle.h / 2);
+        ball.dy = hitPos * 5.2;
+        ball.x = left.x + paddle.w + ball.r;
+      }
+
+      // Right paddle collision
+      if (
+        ball.x + ball.r >= right.x &&
+        ball.x + ball.r <= right.x + paddle.w &&
+        ball.y >= right.y &&
+        ball.y <= right.y + paddle.h &&
+        ball.dx > 0
+      ) {
+        ball.dx *= -1.06;
+        const hitPos = (ball.y - (right.y + paddle.h / 2)) / (paddle.h / 2);
+        ball.dy = hitPos * 5.2;
+        ball.x = right.x - ball.r;
+      }
+
+      // Score
+      if (ball.x < -30) {
+        state.right += 1;
+        updateScore();
+        if (state.right >= 7) {
+          state.gameOver = true;
+          state.winner = "Right player";
+        } else {
+          serveAfterPoint("right");
+        }
+      }
+
+      if (ball.x > W + 30) {
+        state.left += 1;
+        updateScore();
+        if (state.left >= 7) {
+          state.gameOver = true;
+          state.winner = "Left player";
+        } else {
+          serveAfterPoint("left");
+        }
+      }
+    }
+
+    function render() {
+      ctx.clearRect(0, 0, W, H);
+
+      // Soft background glow
+      const bg = ctx.createLinearGradient(0, 0, W, H);
+      bg.addColorStop(0, "rgba(255,255,255,0.08)");
+      bg.addColorStop(0.5, "rgba(255,255,255,0.02)");
+      bg.addColorStop(1, "rgba(255,255,255,0.06)");
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, W, H);
+
+      drawCenterLine();
+      drawPaddle(left);
+      drawPaddle(right);
+      drawBall();
+
+      if (state.gameOver || state.paused) {
+        drawOverlayText();
+      }
+    }
+
+    function loop() {
+      update();
+      render();
+      requestAnimationFrame(loop);
+    }
+
+    const keys = new Set();
+
+    window.addEventListener("keydown", (e) => {
+      if (["ArrowUp", "ArrowDown", "w", "W", "s", "S", " "].includes(e.key)) {
+        e.preventDefault();
+      }
+
+      keys.add(e.key);
+
+      if (e.key === " ") {
+        if (state.gameOver) {
+          resetGame();
+          return;
+        }
+        state.paused = !state.paused;
+      }
+
+      if (e.key === "w" || e.key === "W") left.dy = -paddle.speed;
+      if (e.key === "s" || e.key === "S") left.dy = paddle.speed;
+      if (e.key === "ArrowUp") right.dy = -paddle.speed;
+      if (e.key === "ArrowDown") right.dy = paddle.speed;
+    });
+
+    window.addEventListener("keyup", (e) => {
+      keys.delete(e.key);
+
+      if ((e.key === "w" || e.key === "W") && !keys.has("s") && !keys.has("S")) left.dy = 0;
+      if ((e.key === "s" || e.key === "S") && !keys.has("w") && !keys.has("W")) left.dy = 0;
+      if (e.key === "ArrowUp" && !keys.has("ArrowDown")) right.dy = 0;
+      if (e.key === "ArrowDown" && !keys.has("ArrowUp")) right.dy = 0;
+    });
+
+    canvas.addEventListener("click", () => {
+      if (state.gameOver) resetGame();
+      else state.paused = !state.paused;
+    });
+
+    resetGame();
+    loop();
+  </script>
 </body>
 </html>
