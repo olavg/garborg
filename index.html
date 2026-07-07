@@ -77,7 +77,7 @@
     }
 
     .hud {
-      width: min(760px, 100%);
+      width: min(720px, 100%);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -108,8 +108,8 @@
     }
 
     canvas {
-      width: min(760px, 100%);
-      aspect-ratio: 2 / 1;
+      width: min(720px, 100%);
+      aspect-ratio: 1 / 1;
       display: block;
       border-radius: 20px;
       background:
@@ -159,7 +159,7 @@
     <div class="game-wrap">
       <div class="hud">
         <div>Tap / click bubbles</div>
-        <div class="score" id="score">0</div>
+        <div class="score" id="score">0 · 30s</div>
         <button class="btn" id="restartBtn">Restart</button>
       </div>
 
@@ -170,7 +170,7 @@
       </div>
     </div>
 
-    <div class="version" id="version">v03</div>
+    <div class="version" id="version">v04</div>
   </div>
 
   <script>
@@ -180,8 +180,8 @@
     const helpText = document.getElementById("helpText");
     const restartBtn = document.getElementById("restartBtn");
 
-    let cssW = 760;
-    let cssH = 380;
+    let cssW = 720;
+    let cssH = 720;
     let dpr = window.devicePixelRatio || 1;
 
     const game = {
@@ -220,6 +220,10 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
+    function randomBetween(min, max) {
+      return min + Math.random() * (max - min);
+    }
+
     function resetGame() {
       game.score = 0;
       game.timeLeft = 30;
@@ -228,35 +232,32 @@
       game.bubbles = [];
       game.lastSpawn = 0;
       game.burstText = null;
-      scoreEl.textContent = "0";
+      restartBtn.textContent = "Restart";
+      scoreEl.textContent = "0 · 30s";
       helpText.textContent = "Pop as many bubbles as you can in 30 seconds. Golden bubbles are worth more points.";
-      spawnBurst(10);
+      for (let i = 0; i < 10; i++) spawnBubble(true);
     }
 
-    function spawnBubble() {
-      const size = 18 + Math.random() * 34;
-      const golden = Math.random() < 0.08;
+    function spawnBubble(initial = false) {
+      const size = randomBetween(16, 36);
+      const golden = Math.random() < 0.09;
+
+      const speed = initial ? randomBetween(30, 110) : randomBetween(40, 140);
+      const angle = randomBetween(0, Math.PI * 2);
 
       const bubble = {
-        x: size + Math.random() * Math.max(80, cssW - size * 2 - 80),
-        y: cssH + size + Math.random() * 30,
-        vx: (Math.random() - 0.5) * 0.8,
-        vy: -(0.7 + Math.random() * 1.8),
+        x: randomBetween(size, cssW - size),
+        y: randomBetween(size, cssH - size),
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
         r: size,
-        hue: golden ? 48 : palette[Math.floor(Math.random() * palette.length)],
-        alpha: 0.92,
-        pop: 0,
+        hue: golden ? "rgba(255, 220, 120, 0.95)" : palette[Math.floor(Math.random() * palette.length)],
+        alpha: 0.95,
         wobble: Math.random() * Math.PI * 2,
         golden
       };
 
       game.bubbles.push(bubble);
-    }
-
-    function spawnBurst(count = 6) {
-      for (let i = 0; i < count; i++) {
-        setTimeout(spawnBubble, i * 90);
-      }
     }
 
     function bubblePoints(b) {
@@ -268,7 +269,7 @@
       if (!b) return;
 
       game.score += bubblePoints(b);
-      scoreEl.textContent = String(game.score);
+      scoreEl.textContent = `${game.score} · ${Math.ceil(game.timeLeft)}s`;
 
       game.burstText = {
         x,
@@ -283,8 +284,8 @@
     function pointerToCanvas(e) {
       const rect = canvas.getBoundingClientRect();
       return {
-        x: (e.clientX - rect.left),
-        y: (e.clientY - rect.top)
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
       };
     }
 
@@ -298,20 +299,15 @@
       const p = pointerToCanvas(e);
 
       if (game.gameOver) {
-        resetGame();
         return;
       }
 
-      let hit = false;
       for (let i = game.bubbles.length - 1; i >= 0; i--) {
         if (hitTestBubble(p.x, p.y, game.bubbles[i])) {
           popBubble(i, game.bubbles[i].x, game.bubbles[i].y);
-          hit = true;
-          break;
+          return;
         }
       }
-
-      if (!hit && !game.running) resetGame();
     }
 
     canvas.addEventListener("pointerdown", onPointerDown);
@@ -349,7 +345,7 @@
         grad.addColorStop(1, "rgba(255,183,0,0.18)");
       } else {
         grad.addColorStop(0, "rgba(255,255,255,0.92)");
-        grad.addColorStop(0.2, b.hue);
+        grad.addColorStop(0.22, b.hue);
         grad.addColorStop(1, "rgba(255,255,255,0.12)");
       }
 
@@ -388,7 +384,7 @@
     }
 
     function drawHUDOverlay() {
-      if (!game.running && !game.gameOver) return;
+      if (!game.gameOver) return;
 
       ctx.save();
       ctx.fillStyle = "rgba(0,0,0,0.25)";
@@ -396,15 +392,12 @@
 
       ctx.fillStyle = "#fff";
       ctx.textAlign = "center";
+      ctx.font = "900 34px Segoe UI, Arial, sans-serif";
+      ctx.fillText("Time!", cssW / 2, cssH / 2 - 16);
 
-      if (game.gameOver) {
-        ctx.font = "900 34px Segoe UI, Arial, sans-serif";
-        ctx.fillText("Time!", cssW / 2, cssH / 2 - 16);
-
-        ctx.font = "700 18px Segoe UI, Arial, sans-serif";
-        ctx.fillText(`Final score: ${game.score}`, cssW / 2, cssH / 2 + 16);
-        ctx.fillText("Tap to play again", cssW / 2, cssH / 2 + 42);
-      }
+      ctx.font = "700 18px Segoe UI, Arial, sans-serif";
+      ctx.fillText(`Final score: ${game.score}`, cssW / 2, cssH / 2 + 16);
+      ctx.fillText("Use the Play again button", cssW / 2, cssH / 2 + 42);
       ctx.restore();
     }
 
@@ -416,26 +409,45 @@
         game.timeLeft = 0;
         game.running = false;
         game.gameOver = true;
-        helpText.textContent = "Nice! Tap Restart or the canvas to try again.";
+        restartBtn.textContent = "Play again";
+        helpText.textContent = "Nice! Use Play again to try another round.";
       }
 
-      const spawnRate = Math.max(420, 920 - game.score * 10);
+      const spawnRate = Math.max(360, 880 - game.score * 8);
 
       if (performance.now() - game.lastSpawn > spawnRate) {
         game.lastSpawn = performance.now();
-        spawnBubble();
-        if (Math.random() < 0.25) spawnBubble();
+        spawnBubble(false);
+        if (Math.random() < 0.35) spawnBubble(false);
       }
 
       for (let i = game.bubbles.length - 1; i >= 0; i--) {
         const b = game.bubbles[i];
         b.wobble += dt * 6.5;
-        b.x += b.vx + Math.sin(b.wobble) * 0.25;
-        b.y += b.vy;
-        b.alpha = clamp(b.alpha - dt * 0.01, 0.6, 1);
 
-        if (b.y + b.r < -30) {
-          game.bubbles.splice(i, 1);
+        b.x += b.vx * dt;
+        b.y += b.vy * dt;
+
+        const jitterX = Math.sin(b.wobble * 1.4) * 6;
+        const jitterY = Math.cos(b.wobble * 1.2) * 6;
+        b.x += jitterX * dt * 0.15;
+        b.y += jitterY * dt * 0.15;
+
+        // Bounce off edges to keep bubbles in play
+        if (b.x - b.r <= 0) {
+          b.x = b.r;
+          b.vx *= -1;
+        } else if (b.x + b.r >= cssW) {
+          b.x = cssW - b.r;
+          b.vx *= -1;
+        }
+
+        if (b.y - b.r <= 0) {
+          b.y = b.r;
+          b.vy *= -1;
+        } else if (b.y + b.r >= cssH) {
+          b.y = cssH - b.r;
+          b.vy *= -1;
         }
       }
 
@@ -449,11 +461,10 @@
       ctx.clearRect(0, 0, cssW, cssH);
       drawBackground();
 
-      // soft floating dots in the background
       ctx.save();
-      for (let i = 0; i < 14; i++) {
-        const x = (i * 67 + (performance.now() * 0.01)) % cssW;
-        const y = (i * 31 + (performance.now() * 0.015)) % cssH;
+      for (let i = 0; i < 12; i++) {
+        const x = (i * 73 + (performance.now() * 0.01)) % cssW;
+        const y = (i * 47 + (performance.now() * 0.015)) % cssH;
         ctx.fillStyle = "rgba(255,255,255,0.05)";
         ctx.beginPath();
         ctx.arc(x, y, 2 + (i % 3), 0, Math.PI * 2);
@@ -474,19 +485,15 @@
       update(dt);
       render();
 
-      if (game.running || !game.gameOver) {
-        requestAnimationFrame(loop);
-      } else {
-        requestAnimationFrame(loop);
-      }
+      requestAnimationFrame(loop);
     }
 
     function tickTimer() {
       if (game.gameOver) {
-        scoreEl.textContent = String(game.score);
-        return;
+        scoreEl.textContent = `${game.score}`;
+      } else {
+        scoreEl.textContent = `${game.score} · ${Math.ceil(game.timeLeft)}s`;
       }
-      scoreEl.textContent = String(game.score) + "  ·  " + Math.ceil(game.timeLeft) + "s";
       requestAnimationFrame(tickTimer);
     }
 
