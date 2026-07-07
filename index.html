@@ -2,13 +2,13 @@
 <html lang="no">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>garborg.com</title>
   <style>
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
     :root {
@@ -18,49 +18,50 @@
       --bg4: #5568fe;
       --bg5: #c44dff;
       --glass: rgba(255, 255, 255, 0.16);
-      --glass-border: rgba(255, 255, 255, 0.24);
-      --text: #ffffff;
+      --border: rgba(255, 255, 255, 0.24);
+      --text: rgba(255, 255, 255, 0.96);
+      --muted: rgba(255, 255, 255, 0.78);
     }
 
     body {
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
       background: linear-gradient(-45deg, var(--bg1), var(--bg2), var(--bg3), var(--bg4), var(--bg5));
       background-size: 400% 400%;
-      animation: gradientMove 15s ease infinite;
-      font-family: "Segoe UI", Arial, sans-serif;
-      overflow: hidden;
-      color: var(--text);
+      animation: bgMove 16s ease infinite;
+      overflow-x: hidden;
     }
 
-    @keyframes gradientMove {
+    @keyframes bgMove {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
     .container {
-      width: min(920px, 92vw);
-      padding: 28px;
+      width: min(920px, 100%);
+      padding: 20px;
       text-align: center;
-      backdrop-filter: blur(18px);
+      border-radius: 28px;
       background: var(--glass);
-      border: 1px solid var(--glass-border);
-      border-radius: 30px;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18);
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+      backdrop-filter: blur(18px);
     }
 
     .logo {
-      width: min(320px, 72vw);
+      width: min(280px, 70vw);
       border-radius: 20px;
+      display: block;
+      margin: 0 auto;
       box-shadow:
         0 0 30px rgba(255, 255, 255, 0.35),
         0 15px 35px rgba(0, 0, 0, 0.22);
       animation: float 5s ease-in-out infinite;
-      display: block;
-      margin: 0 auto;
     }
 
     @keyframes float {
@@ -69,8 +70,8 @@
     }
 
     .garborg-text {
-      margin-top: 22px;
-      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      margin-top: 18px;
+      font-size: clamp(2.4rem, 7vw, 5.2rem);
       font-weight: 900;
       letter-spacing: 3px;
       display: flex;
@@ -117,33 +118,36 @@
     .letter:nth-child(11) { animation-delay: 1s; }
 
     .game-wrap {
-      margin: 26px auto 0;
-      width: min(760px, 100%);
+      margin-top: 22px;
       display: grid;
       gap: 12px;
       justify-items: center;
     }
 
     .hud {
-      width: 100%;
+      width: min(760px, 100%);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.95rem;
-      color: rgba(255, 255, 255, 0.92);
+      gap: 12px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.92rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       padding: 0 4px;
     }
 
-    .hud .score {
-      font-weight: 800;
+    .score {
+      font-weight: 900;
+      color: white;
+      font-size: 1rem;
     }
 
     canvas {
-      width: 100%;
-      max-width: 760px;
+      width: min(760px, 100%);
       aspect-ratio: 2 / 1;
+      display: block;
       border-radius: 20px;
       background:
         radial-gradient(circle at 50% 30%, rgba(255,255,255,0.16), rgba(255,255,255,0.04) 40%, rgba(0,0,0,0.12) 100%);
@@ -151,31 +155,43 @@
       box-shadow:
         inset 0 0 0 1px rgba(255,255,255,0.08),
         0 18px 40px rgba(0,0,0,0.18);
-      display: block;
+      touch-action: none;
     }
 
     .help {
       font-size: 0.92rem;
-      color: rgba(255,255,255,0.84);
+      color: var(--muted);
       line-height: 1.4;
+      max-width: 720px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-weight: 800;
+      cursor: pointer;
+      background: rgba(255,255,255,0.92);
+      color: #1d2340;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.15);
     }
 
     .version {
-      margin-top: 18px;
+      margin-top: 16px;
       font-size: 0.82rem;
-      color: rgba(255, 255, 255, 0.82);
+      color: rgba(255,255,255,0.82);
       letter-spacing: 0.3em;
       text-transform: uppercase;
     }
 
     @media (max-width: 720px) {
       .container {
-        padding: 18px;
+        padding: 16px;
         border-radius: 24px;
       }
 
       .hud {
-        font-size: 0.82rem;
+        font-size: 0.78rem;
       }
 
       .help {
@@ -188,119 +204,119 @@
   <div class="container">
     <img src="IMG_6110.JPG" alt="Garborg.com Logo" class="logo" />
 
-    <div class="garborg-text" id="siteName"></div>
+    <div class="garborg-text" id="siteName" aria-label="garborg.com"></div>
 
     <div class="game-wrap">
       <div class="hud">
-        <div>Left: W / S</div>
+        <div>Drag / swipe to move</div>
         <div class="score" id="score">0 - 0</div>
-        <div>Right: Arrow Up / Down</div>
+        <button class="btn" id="restartBtn">Restart</button>
       </div>
 
-      <canvas id="pong" width="760" height="380"></canvas>
+      <canvas id="pong"></canvas>
 
       <div class="help">
-        Small Pong built in. First to 7 wins. Press Space to pause or restart after a win.
+        Single-player Pong for phones and desktop. Drag your paddle on the left. The right paddle is controlled by AI. First to 7 wins.
       </div>
     </div>
 
-    <div class="version">v02</div>
+    <div class="version" id="version">v02</div>
   </div>
+
   <script>
-  const hostname = window.location.hostname.toLowerCase();
-  
-  // Remove www.
-  const siteName = hostname.replace(/^www\./, '');
-  
-  const container = document.getElementById('siteName');
-  
-  siteName.split('').forEach((char, index) => {
-      const span = document.createElement('span');
-      span.className = 'letter';
-      span.textContent = char;
-      span.style.animationDelay = `${index * 0.1}s`;
-      container.appendChild(span);
-  });
-  </script>
-  <script>
+    // Domain-aware site text
+    const hostname = window.location.hostname.toLowerCase().replace(/^www\./, "") || "garborg.com";
+    const siteName = document.getElementById("siteName");
+    hostname.split("").forEach((ch, i) => {
+      const s = document.createElement("span");
+      s.className = "letter";
+      s.textContent = ch;
+      s.style.animationDelay = `${i * 0.1}s`;
+      siteName.appendChild(s);
+    });
+
+    // Pong game
     const canvas = document.getElementById("pong");
     const ctx = canvas.getContext("2d");
     const scoreEl = document.getElementById("score");
+    const restartBtn = document.getElementById("restartBtn");
 
-    const W = canvas.width;
-    const H = canvas.height;
+    let cssW = 760;
+    let cssH = 380;
+    let dpr = window.devicePixelRatio || 1;
 
-    const state = {
-      left: 0,
-      right: 0,
+    const game = {
+      leftScore: 0,
+      rightScore: 0,
       paused: false,
       gameOver: false,
-      winner: "",
+      winner: ""
     };
 
     const paddle = {
       w: 14,
-      h: 90,
+      h: 88,
       speed: 6.5
     };
 
-    const left = {
-      x: 24,
-      y: H / 2 - paddle.h / 2,
-      dy: 0
-    };
-
-    const right = {
-      x: W - 24 - paddle.w,
-      y: H / 2 - paddle.h / 2,
-      dy: 0
-    };
+    const left = { x: 24, y: 100 };
+    const right = { x: 0, y: 100 };
 
     const ball = {
-      x: W / 2,
-      y: H / 2,
+      x: 0,
+      y: 0,
       r: 9,
       dx: 5,
-      dy: 3.2
+      dy: 3
     };
-
-    function resetBall(direction = 1) {
-      ball.x = W / 2;
-      ball.y = H / 2;
-      ball.dx = 5 * direction;
-      ball.dy = (Math.random() > 0.5 ? 1 : -1) * (2.7 + Math.random() * 1.8);
-    }
-
-    function resetGame() {
-      state.left = 0;
-      state.right = 0;
-      state.paused = false;
-      state.gameOver = false;
-      state.winner = "";
-      left.y = H / 2 - paddle.h / 2;
-      right.y = H / 2 - paddle.h / 2;
-      resetBall(Math.random() > 0.5 ? 1 : -1);
-      updateScore();
-    }
-
-    function updateScore() {
-      scoreEl.textContent = `${state.left} - ${state.right}`;
-    }
 
     function clamp(v, min, max) {
       return Math.max(min, Math.min(max, v));
     }
 
-    function drawCenterLine() {
-      ctx.save();
-      ctx.strokeStyle = "rgba(255,255,255,0.35)";
-      ctx.setLineDash([10, 14]);
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(W / 2, 16);
-      ctx.lineTo(W / 2, H - 16);
-      ctx.stroke();
-      ctx.restore();
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      cssW = rect.width;
+      cssH = rect.height;
+      dpr = window.devicePixelRatio || 1;
+
+      canvas.width = Math.round(cssW * dpr);
+      canvas.height = Math.round(cssH * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      right.x = cssW - 24 - paddle.w;
+
+      if (ball.x === 0 && ball.y === 0) {
+        resetPositions();
+      } else {
+        left.y = clamp(left.y, 0, cssH - paddle.h);
+        right.y = clamp(right.y, 0, cssH - paddle.h);
+        ball.x = clamp(ball.x, ball.r, cssW - ball.r);
+        ball.y = clamp(ball.y, ball.r, cssH - ball.r);
+      }
+    }
+
+    function resetPositions(direction = 1) {
+      left.y = cssH / 2 - paddle.h / 2;
+      right.y = cssH / 2 - paddle.h / 2;
+      ball.x = cssW / 2;
+      ball.y = cssH / 2;
+      ball.dx = 5 * direction;
+      ball.dy = (Math.random() > 0.5 ? 1 : -1) * (2.5 + Math.random() * 1.6);
+    }
+
+    function resetGame() {
+      game.leftScore = 0;
+      game.rightScore = 0;
+      game.paused = false;
+      game.gameOver = false;
+      game.winner = "";
+      resetPositions(Math.random() > 0.5 ? 1 : -1);
+      updateScore();
+    }
+
+    function updateScore() {
+      scoreEl.textContent = `${game.leftScore} - ${game.rightScore}`;
     }
 
     function drawRoundedRect(x, y, w, h, r, fillStyle) {
@@ -315,18 +331,31 @@
       ctx.fill();
     }
 
+    function drawCenterLine() {
+      ctx.save();
+      ctx.strokeStyle = "rgba(255,255,255,0.32)";
+      ctx.setLineDash([10, 14]);
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(cssW / 2, 16);
+      ctx.lineTo(cssW / 2, cssH - 16);
+      ctx.stroke();
+      ctx.restore();
+    }
+
     function drawPaddle(p) {
-      drawRoundedRect(p.x, p.y, paddle.w, paddle.h, 8, "rgba(255,255,255,0.95)");
+      ctx.save();
       ctx.shadowColor = "rgba(255,255,255,0.4)";
       ctx.shadowBlur = 12;
       drawRoundedRect(p.x, p.y, paddle.w, paddle.h, 8, "rgba(255,255,255,0.95)");
-      ctx.shadowBlur = 0;
+      ctx.restore();
     }
 
     function drawBall() {
+      ctx.save();
       const grad = ctx.createRadialGradient(ball.x - 3, ball.y - 3, 2, ball.x, ball.y, ball.r + 8);
       grad.addColorStop(0, "#ffffff");
-      grad.addColorStop(0.4, "#ffecb3");
+      grad.addColorStop(0.45, "#ffecb3");
       grad.addColorStop(1, "rgba(255,255,255,0.15)");
 
       ctx.beginPath();
@@ -335,50 +364,51 @@
       ctx.shadowColor = "rgba(255,255,255,0.6)";
       ctx.shadowBlur = 18;
       ctx.fill();
-      ctx.shadowBlur = 0;
+      ctx.restore();
     }
 
-    function drawOverlayText() {
-      if (!state.paused && !state.gameOver) return;
+    function drawOverlay() {
+      if (!game.paused && !game.gameOver) return;
 
       ctx.save();
       ctx.fillStyle = "rgba(0,0,0,0.28)";
-      ctx.fillRect(0, 0, W, H);
+      ctx.fillRect(0, 0, cssW, cssH);
 
       ctx.fillStyle = "#fff";
       ctx.textAlign = "center";
-
-      ctx.font = "900 34px Segoe UI, Arial, sans-serif";
-      ctx.fillText(state.gameOver ? `${state.winner} wins!` : "Paused", W / 2, H / 2 - 12);
+      ctx.font = "900 32px Segoe UI, Arial, sans-serif";
+      ctx.fillText(game.gameOver ? `${game.winner} wins!` : "Paused", cssW / 2, cssH / 2 - 10);
 
       ctx.font = "600 18px Segoe UI, Arial, sans-serif";
-      ctx.fillText(state.gameOver ? "Press Space to restart" : "Press Space to continue", W / 2, H / 2 + 22);
+      ctx.fillText(game.gameOver ? "Tap Restart" : "Tap to continue", cssW / 2, cssH / 2 + 24);
       ctx.restore();
     }
 
     function serveAfterPoint(scoredBy) {
-      resetBall(scoredBy === "left" ? 1 : -1);
-      state.paused = true;
+      resetPositions(scoredBy === "left" ? 1 : -1);
+      game.paused = true;
       setTimeout(() => {
-        if (!state.gameOver) state.paused = false;
-      }, 700);
+        if (!game.gameOver) game.paused = false;
+      }, 650);
     }
 
     function update() {
-      if (state.paused || state.gameOver) return;
+      if (game.paused || game.gameOver) return;
 
-      left.y += left.dy;
-      right.y += right.dy;
-
-      left.y = clamp(left.y, 0, H - paddle.h);
-      right.y = clamp(right.y, 0, H - paddle.h);
+      // AI paddle follows the ball with limited speed
+      const aiTarget = ball.y - paddle.h / 2;
+      const aiMax = 4.9;
+      const delta = aiTarget - right.y;
+      right.y += clamp(delta * 0.09, -aiMax, aiMax);
+      right.y = clamp(right.y, 0, cssH - paddle.h);
 
       ball.x += ball.dx;
       ball.y += ball.dy;
 
-      if (ball.y - ball.r <= 0 || ball.y + ball.r >= H) {
+      // Wall bounce
+      if (ball.y - ball.r <= 0 || ball.y + ball.r >= cssH) {
         ball.dy *= -1;
-        ball.y = clamp(ball.y, ball.r, H - ball.r);
+        ball.y = clamp(ball.y, ball.r, cssH - ball.r);
       }
 
       // Left paddle collision
@@ -391,7 +421,7 @@
       ) {
         ball.dx *= -1.06;
         const hitPos = (ball.y - (left.y + paddle.h / 2)) / (paddle.h / 2);
-        ball.dy = hitPos * 5.2;
+        ball.dy = hitPos * 5.5;
         ball.x = left.x + paddle.w + ball.r;
       }
 
@@ -409,24 +439,24 @@
         ball.x = right.x - ball.r;
       }
 
-      // Score
+      // Score left / right
       if (ball.x < -30) {
-        state.right += 1;
+        game.rightScore += 1;
         updateScore();
-        if (state.right >= 7) {
-          state.gameOver = true;
-          state.winner = "Right player";
+        if (game.rightScore >= 7) {
+          game.gameOver = true;
+          game.winner = "Computer";
         } else {
           serveAfterPoint("right");
         }
       }
 
-      if (ball.x > W + 30) {
-        state.left += 1;
+      if (ball.x > cssW + 30) {
+        game.leftScore += 1;
         updateScore();
-        if (state.left >= 7) {
-          state.gameOver = true;
-          state.winner = "Left player";
+        if (game.leftScore >= 7) {
+          game.gameOver = true;
+          game.winner = "You";
         } else {
           serveAfterPoint("left");
         }
@@ -434,24 +464,20 @@
     }
 
     function render() {
-      ctx.clearRect(0, 0, W, H);
+      ctx.clearRect(0, 0, cssW, cssH);
 
-      // Soft background glow
-      const bg = ctx.createLinearGradient(0, 0, W, H);
+      const bg = ctx.createLinearGradient(0, 0, cssW, cssH);
       bg.addColorStop(0, "rgba(255,255,255,0.08)");
       bg.addColorStop(0.5, "rgba(255,255,255,0.02)");
       bg.addColorStop(1, "rgba(255,255,255,0.06)");
       ctx.fillStyle = bg;
-      ctx.fillRect(0, 0, W, H);
+      ctx.fillRect(0, 0, cssW, cssH);
 
       drawCenterLine();
       drawPaddle(left);
       drawPaddle(right);
       drawBall();
-
-      if (state.gameOver || state.paused) {
-        drawOverlayText();
-      }
+      drawOverlay();
     }
 
     function loop() {
@@ -460,43 +486,56 @@
       requestAnimationFrame(loop);
     }
 
-    const keys = new Set();
+    function movePlayerTo(clientY) {
+      const rect = canvas.getBoundingClientRect();
+      const y = clientY - rect.top;
+      left.y = clamp(y - paddle.h / 2, 0, cssH - paddle.h);
+    }
 
+    let dragging = false;
+
+    canvas.addEventListener("pointerdown", (e) => {
+      dragging = true;
+      canvas.setPointerCapture(e.pointerId);
+      movePlayerTo(e.clientY);
+
+      if (game.gameOver) {
+        resetGame();
+      } else if (game.paused) {
+        game.paused = false;
+      }
+    });
+
+    canvas.addEventListener("pointermove", (e) => {
+      if (!dragging) return;
+      movePlayerTo(e.clientY);
+    });
+
+    canvas.addEventListener("pointerup", () => {
+      dragging = false;
+    });
+
+    canvas.addEventListener("pointercancel", () => {
+      dragging = false;
+    });
+
+    // Optional keyboard controls for desktop
     window.addEventListener("keydown", (e) => {
-      if (["ArrowUp", "ArrowDown", "w", "W", "s", "S", " "].includes(e.key)) {
-        e.preventDefault();
-      }
-
-      keys.add(e.key);
-
       if (e.key === " ") {
-        if (state.gameOver) {
-          resetGame();
-          return;
-        }
-        state.paused = !state.paused;
+        e.preventDefault();
+        if (game.gameOver) resetGame();
+        else game.paused = !game.paused;
       }
-
-      if (e.key === "w" || e.key === "W") left.dy = -paddle.speed;
-      if (e.key === "s" || e.key === "S") left.dy = paddle.speed;
-      if (e.key === "ArrowUp") right.dy = -paddle.speed;
-      if (e.key === "ArrowDown") right.dy = paddle.speed;
+      if (e.key === "ArrowUp") left.y -= paddle.speed * 10;
+      if (e.key === "ArrowDown") left.y += paddle.speed * 10;
+      left.y = clamp(left.y, 0, cssH - paddle.h);
     });
 
-    window.addEventListener("keyup", (e) => {
-      keys.delete(e.key);
+    restartBtn.addEventListener("click", resetGame);
+    window.addEventListener("resize", resizeCanvas);
 
-      if ((e.key === "w" || e.key === "W") && !keys.has("s") && !keys.has("S")) left.dy = 0;
-      if ((e.key === "s" || e.key === "S") && !keys.has("w") && !keys.has("W")) left.dy = 0;
-      if (e.key === "ArrowUp" && !keys.has("ArrowDown")) right.dy = 0;
-      if (e.key === "ArrowDown" && !keys.has("ArrowUp")) right.dy = 0;
-    });
-
-    canvas.addEventListener("click", () => {
-      if (state.gameOver) resetGame();
-      else state.paused = !state.paused;
-    });
-
+    // Initial setup
+    resizeCanvas();
     resetGame();
     loop();
   </script>
