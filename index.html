@@ -24,10 +24,10 @@
     }
 
     body {
-      min-height: 100vh;
+      min-height: 100dvh;
       display: grid;
       place-items: center;
-      padding: 18px;
+      padding: clamp(8px, 2vw, 18px);
       font-family: "Segoe UI", Arial, sans-serif;
       color: var(--text);
       background: linear-gradient(-45deg, var(--bg1), var(--bg2), var(--bg3), var(--bg4), var(--bg5));
@@ -43,8 +43,8 @@
     }
 
     .container {
-      width: min(920px, 100%);
-      padding: 20px;
+      width: min(100%, 920px);
+      padding: clamp(10px, 2vw, 20px);
       text-align: center;
       border-radius: 28px;
       background: var(--glass);
@@ -54,7 +54,7 @@
     }
 
     .logo {
-      width: min(280px, 70vw);
+      width: min(240px, 62vw);
       border-radius: 20px;
       display: block;
       margin: 0 auto;
@@ -70,84 +70,94 @@
     }
 
     .game-wrap {
-      margin-top: 22px;
+      margin-top: 16px;
       display: grid;
-      gap: 12px;
+      gap: 10px;
       justify-items: center;
     }
 
     .hud {
-      width: min(720px, 100%);
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
       color: var(--muted);
-      font-size: 0.92rem;
+      font-size: clamp(0.72rem, 2.5vw, 0.92rem);
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 0 4px;
+      padding: 0 2px;
     }
 
     .score {
       font-weight: 900;
       color: white;
-      font-size: 1rem;
+      font-size: clamp(0.85rem, 2.8vw, 1rem);
     }
 
     .btn {
       border: 0;
       border-radius: 999px;
-      padding: 10px 16px;
+      padding: 9px 14px;
       font-weight: 800;
       cursor: pointer;
-      background: rgba(255,255,255,0.92);
+      background: rgba(255, 255, 255, 0.92);
       color: #1d2340;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+      font-size: clamp(0.8rem, 2.7vw, 0.95rem);
     }
 
     canvas {
-      width: min(720px, 100%);
+      width: 100%;
+      max-width: 100%;
       aspect-ratio: 1 / 1;
       display: block;
-      border-radius: 20px;
+      border-radius: 18px;
       background:
-        radial-gradient(circle at 50% 30%, rgba(255,255,255,0.16), rgba(255,255,255,0.04) 40%, rgba(0,0,0,0.12) 100%);
-      border: 1px solid rgba(255,255,255,0.24);
+        radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04) 40%, rgba(0, 0, 0, 0.12) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.24);
       box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,0.08),
-        0 18px 40px rgba(0,0,0,0.18);
+        inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+        0 18px 40px rgba(0, 0, 0, 0.18);
       touch-action: none;
     }
 
     .help {
-      font-size: 0.92rem;
+      font-size: clamp(0.78rem, 2.6vw, 0.92rem);
       color: var(--muted);
       line-height: 1.4;
       max-width: 720px;
     }
 
     .version {
-      margin-top: 16px;
-      font-size: 0.82rem;
-      color: rgba(255,255,255,0.82);
+      margin-top: 14px;
+      font-size: 0.76rem;
+      color: rgba(255, 255, 255, 0.82);
       letter-spacing: 0.3em;
       text-transform: uppercase;
     }
 
-    @media (max-width: 720px) {
+    @media (max-width: 420px) {
       .container {
-        padding: 16px;
-        border-radius: 24px;
+        border-radius: 22px;
+      }
+
+      .logo {
+        width: min(200px, 68vw);
+      }
+
+      .game-wrap {
+        margin-top: 12px;
+        gap: 8px;
       }
 
       .hud {
-        font-size: 0.78rem;
+        gap: 8px;
       }
 
-      .help {
-        font-size: 0.82rem;
+      .btn {
+        padding: 8px 12px;
       }
     }
   </style>
@@ -209,6 +219,10 @@
       return Math.max(min, Math.min(max, v));
     }
 
+    function randomBetween(min, max) {
+      return min + Math.random() * (max - min);
+    }
+
     function resizeCanvas() {
       const rect = canvas.getBoundingClientRect();
       cssW = rect.width;
@@ -218,10 +232,6 @@
       canvas.width = Math.round(cssW * dpr);
       canvas.height = Math.round(cssH * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-
-    function randomBetween(min, max) {
-      return min + Math.random() * (max - min);
     }
 
     function resetGame() {
@@ -235,17 +245,17 @@
       restartBtn.textContent = "Restart";
       scoreEl.textContent = "0 · 30s";
       helpText.textContent = "Pop as many bubbles as you can in 30 seconds. Golden bubbles are worth more points.";
+
       for (let i = 0; i < 10; i++) spawnBubble(true);
     }
 
     function spawnBubble(initial = false) {
       const size = randomBetween(16, 36);
       const golden = Math.random() < 0.09;
-
       const speed = initial ? randomBetween(30, 110) : randomBetween(40, 140);
       const angle = randomBetween(0, Math.PI * 2);
 
-      const bubble = {
+      game.bubbles.push({
         x: randomBetween(size, cssW - size),
         y: randomBetween(size, cssH - size),
         vx: Math.cos(angle) * speed,
@@ -255,9 +265,7 @@
         alpha: 0.95,
         wobble: Math.random() * Math.PI * 2,
         golden
-      };
-
-      game.bubbles.push(bubble);
+      });
     }
 
     function bubblePoints(b) {
@@ -295,12 +303,10 @@
       return Math.sqrt(dx * dx + dy * dy) <= b.r;
     }
 
-    function onPointerDown(e) {
-      const p = pointerToCanvas(e);
+    canvas.addEventListener("pointerdown", (e) => {
+      if (game.gameOver) return;
 
-      if (game.gameOver) {
-        return;
-      }
+      const p = pointerToCanvas(e);
 
       for (let i = game.bubbles.length - 1; i >= 0; i--) {
         if (hitTestBubble(p.x, p.y, game.bubbles[i])) {
@@ -308,15 +314,11 @@
           return;
         }
       }
-    }
-
-    canvas.addEventListener("pointerdown", onPointerDown);
+    });
 
     restartBtn.addEventListener("click", resetGame);
 
-    window.addEventListener("resize", () => {
-      resizeCanvas();
-    });
+    window.addEventListener("resize", resizeCanvas);
 
     function drawBackground() {
       const g = ctx.createLinearGradient(0, 0, cssW, cssH);
@@ -433,7 +435,6 @@
         b.x += jitterX * dt * 0.15;
         b.y += jitterY * dt * 0.15;
 
-        // Bounce off edges to keep bubbles in play
         if (b.x - b.r <= 0) {
           b.x = b.r;
           b.vx *= -1;
